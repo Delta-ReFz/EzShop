@@ -8,4 +8,5 @@ export default defineConfig({
     react(),          // Plugin React
     tsconfigPaths(),  // Plugin pour synchroniser les alias
   ],
+  
 });

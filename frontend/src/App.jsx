@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import { useColorModeValue } from './components/ui/color-mode';
 
 
+
 function App() {
   return (
     <Box minH={"100vh"} bg={useColorModeValue("gray.900", "gray.100")}>
