@@ -1,6 +1,6 @@
 import React from 'react';
 import { useColorModeValue } from '@/components/ui/color-mode';
-import { Box } from '@chakra-ui/react';
+import { Box, Container, VStack, Text } from '@chakra-ui/react';
 
 const HomePage = () => {
   // Appliquer la couleur du texte en fonction du mode
@@ -8,8 +8,24 @@ const HomePage = () => {
   
   return (
     <Box color={textColor}>  {/* La couleur du texte change en fonction du mode */}
-      <div>HomePage</div>
-      {/* Ajoutez d'autres éléments si nécessaire */}
+      <Container maxW='container.xl' py={12}>
+        <VStack wordSpacing={8}>
+          <Text 
+          fontSize={30}
+          fontWeight={"bold"}
+          bgGradient="to-r" gradientFrom="red.400" gradientTo="red.700"
+          bgClip={"text"}
+          textAlign={"center"}
+          >
+            Current Products 🚀
+          </Text>
+
+          
+
+        </VStack>
+
+      </Container>
+      
     </Box>
   );
 };
