@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 import CreatePage from './pages/CreatePage';
 import Navbar from './components/Navbar';
 import { useColorModeValue } from './components/ui/color-mode';
+import { Toaster} from "@/components/ui/toaster"
 
 
 
@@ -11,6 +12,7 @@ function App() {
   return (
     <Box minH={"100vh"} bg={useColorModeValue("gray.900", "gray.100")}>
       <Navbar />
+      <Toaster />
      <Routes>
       <Route path='/' element={<HomePage />}/>
       <Route path='/create' element={<CreatePage />}/>

@@ -2,6 +2,7 @@ import { Box, Button, Container, Heading, Input, VStack } from '@chakra-ui/react
 import React, { useState } from 'react'
 import { useColorModeValue } from '@/components/ui/color-mode';
 import { useProductStore } from '@/store/product';
+import { toaster } from "@/components/ui/toaster"
 
 const CreatePage = () => {
   const textColor = useColorModeValue("white", "black");
@@ -11,12 +12,25 @@ const CreatePage = () => {
     image: "",
   });
 
-  const {createProduct} = useProductStore()
-  const handleAddProduct = async() => {
-    const {success,message} = await createProduct(newProduct)
-    console.log("Success:", success);
-    console.log("Message", message);
-  }
+
+  const { createProduct } = useProductStore();
+
+  const handleAddProduct = async () => {
+    const { success, message } = await createProduct(newProduct);
+
+    // Type du toast basé sur le résultat (succès ou erreur)
+    const type = success ? "success" : "error";
+
+    // Création du toast avec `toaster.create`
+    toaster.create({
+      title: success ? "Success" : "Error", // Titre basé sur le type
+      description: message,                 // Message à afficher
+      type: type,                           // Style basé sur le type
+      duration: 3000,                       // Durée de 3 secondes
+    });
+
+    setNewProduct({name: "",price: "", image: ""});
+  };
 
   return (
     <Container maxW={"container.sm"} color={textColor}>
@@ -36,12 +50,12 @@ const CreatePage = () => {
               value={newProduct.name}
               onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
               _focus={{
-                borderColor: 'red.700', // Bordure rouge au focus
+                borderColor: 'red.600', // Bordure rouge au focus
                 boxShadow: '0 0 10px red.600', // Effet de shadow rouge
               }}
               bg="gray.600" // Fond sombre pour l'input
               color="white" // Texte blanc dans l'input
-              _placeholder={{ color: 'gray.400' }} // Couleur des placeholders
+              _placeholder={{ color: 'gray.400' }} //Couleur des placeholders
             />
 
             <Input
@@ -73,11 +87,11 @@ const CreatePage = () => {
               _placeholder={{ color: 'gray.400' }}
             />
 
-            <Button 
-              onClick={handleAddProduct} 
-              w={'full'} 
-              bg="red.600" 
-              color="white" 
+            <Button
+              onClick={handleAddProduct}
+              w={'full'}
+              bg="red.600"
+              color="white"
               _hover={{ bg: "red.700" }} // Effet au survol
               _active={{ bg: "red.800" }} // Effet au clic
               _focus={{ boxShadow: '0 0 10px red.600' }} // Shadow rouge au focus
