@@ -33,7 +33,16 @@ const ProductCard = ({ product }) => {
 
 
     const handleUpdateProduct = async (pid, updatedProduct) => {
-        await updateProduct(pid, updatedProduct);
+       const {success, message} = await updateProduct(pid, updatedProduct);
+       const type = success ? "success" : "error";
+        // Toast créé dynamiquement en fonction du résultat
+        toaster.create({
+            title: success ? 'Success' : 'Error',      // Titre basé sur le succès
+            description: message,                     // Affiche le message correspondant
+            type: type,    // Style du toast
+            duration: 3000,                           // Durée en millisecondes
+            isClosable: true,                         // Option de fermeture manuelle
+        });
     }
 
     return (
