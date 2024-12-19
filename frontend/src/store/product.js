@@ -26,5 +26,16 @@ export const useProductStore = create((set) => ({
         const data = await res.json();
         set({products: data.data});
     },
+    deleteProduct: async (pid) => {
+        const res = await fetch(`http://localhost:5000/api/products/${pid}`, {
+            method: "DELETE",
+        });
+        const data = await res.json();
+        if(!data.succes) return {succes: false, message:data.message};
+
+        set(state => ({products: state.products.filter(product => product._id !== pid)})); // update the UI instantly pas besoin de refresh la page
+        return {succes: true, message: "Product deleted successfully."};
+
+    }
 }));
 

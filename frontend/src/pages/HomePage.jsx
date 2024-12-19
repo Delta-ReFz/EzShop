@@ -20,7 +20,7 @@ const HomePage = () => {
   return (
     <Box color={textColor}>  {/* La couleur du texte change en fonction du mode */}
       <Container maxW='container.xl' py={12}>
-        <VStack wordSpacing={8}>
+        <VStack>
           <Text 
           fontSize={30}
           fontWeight={"bold"}
@@ -36,7 +36,7 @@ const HomePage = () => {
             md:2,
             lg: 3,
           }}
-          wordSpacing={10}
+          
           w={"full"}
           >
             {products.map((product) => (
@@ -45,7 +45,8 @@ const HomePage = () => {
 
           </SimpleGrid>
 
-          <Text fontSize={'xl'} textAlign={"center"} fontWeight={'bold'} color={'gray.500'} >
+          {products.length === 0 && (
+            <Text fontSize={'xl'} textAlign={"center"} fontWeight={'bold'} color={'gray.500'} >
             No products found 😔 {" "}
             <Link to={"/create"}>
             <Text as={'span'} color={'red.700'} _hover={{ textDecoration: "underline"}}>
@@ -54,6 +55,7 @@ const HomePage = () => {
             </Link>
 
           </Text>
+          )}
 
           
 
