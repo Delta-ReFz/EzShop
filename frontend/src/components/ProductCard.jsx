@@ -1,18 +1,21 @@
-import { Box, Heading, HStack, IconButton, Image, Text } from '@chakra-ui/react';
-import React from 'react';
+import { Box, Heading, HStack, IconButton, Image, Input, Text, VStack } from '@chakra-ui/react';
+import React, { useState } from 'react';
 import { useColorModeValue } from './ui/color-mode';
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { useProductStore } from '@/store/product';
 import { toaster } from "@/components/ui/toaster";
 import { Button } from "@/components/ui/button"
-import {DialogActionTrigger, DialogBody,DialogCloseTrigger,DialogContent,DialogFooter,DialogHeader,DialogRoot,DialogTitle,DialogTrigger,} from "@/components/ui/dialog"
+import { DialogActionTrigger, DialogBody, DialogCloseTrigger, DialogContent, DialogFooter, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
 
 const ProductCard = ({ product }) => {
+    const [updatedProduct, setUpdatedProduct] = useState(product);
+
+
     const TextColor = useColorModeValue("gray.200", "gray.600");
     const bg = useColorModeValue("gray.800", "white");
 
-    const { deleteProduct } = useProductStore();
+    const { deleteProduct, updateProduct } = useProductStore();
 
     const handleDeleteProduct = async (pid) => {
         const { success, message } = await deleteProduct(pid);
@@ -27,6 +30,11 @@ const ProductCard = ({ product }) => {
             isClosable: true,                         // Option de fermeture manuelle
         });
     };
+
+
+    const handleUpdateProduct = async (pid, updatedProduct) => {
+        await updateProduct(pid, updatedProduct);
+    }
 
     return (
         <Box
@@ -48,36 +56,75 @@ const ProductCard = ({ product }) => {
                 </Text>
 
                 <HStack>
-                    <IconButton bgColor={'blue.400'}> <FaEdit /> </IconButton>
+                    <IconButton bgColor={'blue.400'}>
+                        <DialogRoot>
+                            <DialogTrigger asChild>
+                                <Box as="span">
+                                    <FaEdit />
+                                </Box>
+                            </DialogTrigger>
+                            <DialogContent>
+                                <DialogHeader>
+                                    <DialogTitle>Update Product</DialogTitle>
+                                </DialogHeader>
+                                <DialogBody>
+                                    <VStack wordSpacing={4}>
+                                        <Input
+                                            placeholder='Product Name'
+                                            name='name'
+                                            value={updatedProduct.name}
+                                            onChange={(e) => setUpdatedProduct({
+                                                ...updatedProduct, name: e.target.
+                                                    value
+                                            })}
+                                        />
+                                        <Input
+                                            placeholder='Price'
+                                            name='price'
+                                            type='number'
+                                            value={updatedProduct.price}
+                                            onChange={(e) => setUpdatedProduct({
+                                                ...updatedProduct, price: e.target.
+                                                    value
+                                            })}
+                                        />
+                                        <Input
+                                            placeholder='Image URL'
+                                            name='image'
+                                            value={updatedProduct.image}
+                                            onChange={(e) => setUpdatedProduct({
+                                                ...updatedProduct, image: e.target.
+                                                    value
+                                            })}
+                                        />
+                                    </VStack>
+                                </DialogBody>
+                                <DialogFooter>
+                                    <DialogActionTrigger colorPalette={'red'} asChild>
+                                        <Button>Cancel</Button>
+                                    </DialogActionTrigger>
+
+                                    <DialogActionTrigger colorPalette={'blue'}>
+
+                                        <Button
+                                            onClick={async () => {
+                                                const result = await handleUpdateProduct(product._id, updatedProduct);
+
+                                                setUpdatedProduct(product); // Optionnel : reset les valeurs    
+                                            }}
+                                        >Update
+                                        </Button>
+                                    </DialogActionTrigger>
+                                </DialogFooter>
+                                <DialogCloseTrigger />
+                            </DialogContent>
+                        </DialogRoot>
+                    </IconButton>
                     <IconButton onClick={() => handleDeleteProduct(product._id)} bgColor={'red.400'}> <MdDelete /> </IconButton>
                 </HStack>
             </Box>
 
-            <DialogRoot>
-                <DialogTrigger asChild>
-                    <Button variant="outline" size="sm">
-                        Open Dialog
-                    </Button>
-                </DialogTrigger>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>Dialog Title</DialogTitle>
-                    </DialogHeader>
-                    <DialogBody>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                        </p>
-                    </DialogBody>
-                    <DialogFooter>
-                        <DialogActionTrigger asChild>
-                            <Button variant="outline">Cancel</Button>
-                        </DialogActionTrigger>
-                        <Button>Save</Button>
-                    </DialogFooter>
-                    <DialogCloseTrigger />
-                </DialogContent>
-            </DialogRoot>
+
         </Box>
     );
 };
