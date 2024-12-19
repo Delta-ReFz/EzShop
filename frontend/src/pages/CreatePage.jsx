@@ -35,7 +35,7 @@ const CreatePage = () => {
   return (
     <Container maxW={"container.sm"} color={textColor}>
       <VStack wordSpacing={8}>
-        <Heading as={"h1"} size={"2xl"} textAlign={"center"} mb={8} >
+        <Heading as={"h1"} size={"4xl"} textAlign={"center"} mb={8} >
           Create New Product
         </Heading>
 
@@ -53,7 +53,7 @@ const CreatePage = () => {
                 borderColor: 'red.600', // Bordure rouge au focus
                 boxShadow: '0 0 10px red.600', // Effet de shadow rouge
               }}
-              bg="gray.600" // Fond sombre pour l'input
+              bg="gray.700" // Fond sombre pour l'input
               color="white" // Texte blanc dans l'input
               _placeholder={{ color: 'gray.400' }} //Couleur des placeholders
             />
@@ -61,14 +61,14 @@ const CreatePage = () => {
             <Input
               placeholder='Price'
               name='price'
-              type='number'
+              
               value={newProduct.price}
               onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
               _focus={{
                 borderColor: 'red.600', // Bordure rouge au focus
                 boxShadow: '0 0 10px red.600', // Effet de shadow rouge
               }}
-              bg="gray.600"
+              bg="gray.700"
               color="white"
               _placeholder={{ color: 'gray.400' }}
             />
@@ -82,7 +82,7 @@ const CreatePage = () => {
                 borderColor: 'red.600',
                 boxShadow: '0 0 10px red.600',
               }}
-              bg="gray.600"
+              bg="gray.700"
               color="white"
               _placeholder={{ color: 'gray.400' }}
             />
